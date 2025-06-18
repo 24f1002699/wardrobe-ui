@@ -3,39 +3,67 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Wardrobe Agent</title>
+  <title>What's My Style?</title>
   <style>
     body {
-      font-family: sans-serif;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #f7e9ff, #ffe9f0);
+      color: #333;
       padding: 2rem;
       max-width: 500px;
       margin: auto;
+      border-radius: 16px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+    }
+    h2 {
+      text-align: center;
+      color: #a60082;
+      font-weight: 700;
     }
     label, select, input, button {
       width: 100%;
       margin-top: 1rem;
       padding: 0.8rem;
+      font-size: 1rem;
+      border: none;
+      border-radius: 8px;
+    }
+    input, select {
+      background-color: #fff0fb;
+    }
+    button {
+      background-color: #a60082;
+      color: white;
+      cursor: pointer;
+      transition: 0.3s ease;
+    }
+    button:hover {
+      background-color: #870068;
     }
     #result {
       margin-top: 2rem;
-      border: 1px solid #ccc;
+      background-color: #ffffffd9;
+      border-radius: 10px;
       padding: 1rem;
+      border-left: 4px solid #a60082;
+      font-weight: 500;
     }
   </style>
 </head>
 <body>
-  <h2>Get Your Outfit Suggestion</h2>
-  <label for="location">Location</label>
-  <input id="location" type="text" placeholder="e.g., London" />
+  <h2>What's My Style? 💃</h2>
 
-  <label for="style">Style</label>
+  <label for="location">✨ Where you at?</label>
+  <input id="location" type="text" placeholder="e.g., Milan" />
+
+  <label for="style">💅 Vibe check:</label>
   <select id="style">
-    <option value="casual">Casual</option>
-    <option value="business">Business</option>
-    <option value="athletic">Athletic</option>
+    <option value="casual">Casual Queen</option>
+    <option value="business">Business Boss</option>
+    <option value="athletic">Sweat in Style</option>
   </select>
 
-  <button onclick="fetchOutfit()">Suggest Outfit</button>
+  <button onclick="fetchOutfit()">Reveal My Look 🔮</button>
 
   <div id="result"></div>
 
@@ -44,7 +72,7 @@
       const location = document.getElementById("location").value;
       const style = document.getElementById("style").value;
       const result = document.getElementById("result");
-      result.innerHTML = "Loading...";
+      result.innerHTML = "Fetching your fab fit... 🧵";
 
       const url = `https://wardrobe-agent.shreyas-deshmukh16.workers.dev?location=${encodeURIComponent(location)}&style=${style}`;
 
@@ -54,14 +82,14 @@
         if (data.error) throw new Error(data.error);
 
         result.innerHTML = `
-          <strong>Location:</strong> ${data.location}<br/>
-          <strong>Temperature:</strong> ${data.temp}°C<br/>
-          <strong>Condition:</strong> ${data.condition}<br/>
-          <strong>Style:</strong> ${data.style}<br/>
-          <strong>Suggested Outfit:</strong> ${data.outfit}
+          👗 <strong>Location:</strong> ${data.location}<br/>
+          🌡️ <strong>Temperature:</strong> ${data.temp}°C<br/>
+          ☁️ <strong>Condition:</strong> ${data.condition}<br/>
+          👠 <strong>Style:</strong> ${data.style}<br/>
+          💃 <strong>Suggested Look:</strong> ${data.outfit}
         `;
       } catch (e) {
-        result.innerHTML = "Failed to get outfit suggestion.";
+        result.innerHTML = "Oops, couldn't get your look. Try again 💔";
       }
     }
   </script>
