@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Wardrobe Agent</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 2rem;
+      max-width: 500px;
+      margin: auto;
+    }
+    label, select, input, button {
+      width: 100%;
+      margin-top: 1rem;
+      padding: 0.8rem;
+    }
+    #result {
+      margin-top: 2rem;
+      border: 1px solid #ccc;
+      padding: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <h2>Get Your Outfit Suggestion</h2>
+  <label for="location">Location</label>
+  <input id="location" type="text" placeholder="e.g., London" />
+
+  <label for="style">Style</label>
+  <select id="style">
+    <option value="casual">Casual</option>
+    <option value="business">Business</option>
+    <option value="athletic">Athletic</option>
+  </select>
+
+  <button onclick="fetchOutfit()">Suggest Outfit</button>
+
+  <div id="result"></div>
+
+  <script>
+    async function fetchOutfit() {
+      const location = document.getElementById("location").value;
+      const style = document.getElementById("style").value;
+      const result = document.getElementById("result");
+      result.innerHTML = "Loading...";
+
+      const url = `https://wardrobe-agent.shreyas-deshmukh16.workers.dev?location=${encodeURIComponent(location)}&style=${style}`;
+
+      try {
+        const res = await fetch(url);
+        const data = await res.json();
+        if (data.error) throw new Error(data.error);
+
+        result.innerHTML = `
+          <strong>Location:</strong> ${data.location}<br/>
+          <strong>Temperature:</strong> ${data.temp}°C<br/>
+          <strong>Condition:</strong> ${data.condition}<br/>
+          <strong>Style:</strong> ${data.style}<br/>
+          <strong>Suggested Outfit:</strong> ${data.outfit}
+        `;
+      } catch (e) {
+        result.innerHTML = "Failed to get outfit suggestion.";
+      }
+    }
+  </script>
+</body>
+</html>
